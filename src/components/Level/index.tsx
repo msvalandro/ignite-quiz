@@ -1,5 +1,7 @@
-import { Pressable, PressableProps, Text } from 'react-native'
+import { useEffect } from 'react'
+import { Pressable, PressableProps } from 'react-native'
 import Animated, {
+  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -27,11 +29,25 @@ export function Level({
   ...rest
 }: Props) {
   const scale = useSharedValue(1)
+  const checked = useSharedValue(1)
 
   const COLOR = TYPE_COLORS[type]
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
+    backgroundColor: interpolateColor(
+      checked.value,
+      [0, 1],
+      ['transparent', COLOR],
+    ),
+  }))
+
+  const animatedTextStyle = useAnimatedStyle(() => ({
+    color: interpolateColor(
+      checked.value,
+      [0, 1],
+      [COLOR, THEME.COLORS.GREY_100],
+    ),
   }))
 
   function onPressIn() {
@@ -42,26 +58,22 @@ export function Level({
     scale.value = withTiming(1)
   }
 
+  useEffect(() => {
+    checked.value = withTiming(isChecked ? 1 : 0)
+  }, [isChecked])
+
   return (
     <Pressable onPressIn={onPressIn} onPressOut={onPressOut} {...rest}>
       <Animated.View
         style={[
           styles.container,
+          { borderColor: COLOR },
           animatedContainerStyle,
-          {
-            borderColor: COLOR,
-            backgroundColor: isChecked ? COLOR : 'transparent',
-          },
         ]}
       >
-        <Text
-          style={[
-            styles.title,
-            { color: isChecked ? THEME.COLORS.GREY_100 : COLOR },
-          ]}
-        >
+        <Animated.Text style={[styles.title, animatedTextStyle]}>
           {title}
-        </Text>
+        </Animated.Text>
       </Animated.View>
     </Pressable>
   )
