@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Alert, Text, View } from 'react-native'
 import Animated, {
   Easing,
+  Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -132,10 +133,26 @@ export function Quiz() {
 
   const fixedProgressBarStyle = useAnimatedStyle(() => ({
     position: 'absolute',
+    zIndex: 1,
     paddingTop: 50,
     backgroundColor: THEME.COLORS.GREY_500,
     width: '110%',
     left: '-5%',
+    opacity: interpolate(scrollY.value, [50, 90], [0, 1], Extrapolate.CLAMP),
+    transform: [
+      {
+        translateY: interpolate(
+          scrollY.value,
+          [50, 100],
+          [-40, 0],
+          Extrapolate.CLAMP,
+        ),
+      },
+    ],
+  }))
+
+  const headerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(scrollY.value, [60, 90], [1, 0], Extrapolate.CLAMP),
   }))
 
   useEffect(() => {
@@ -171,11 +188,13 @@ export function Quiz() {
         onScroll={scrollHandler}
         scrollEventThrottle={16}
       >
-        <QuizHeader
-          title={quiz.title}
-          currentQuestion={currentQuestion + 1}
-          totalOfQuestions={quiz.questions.length}
-        />
+        <Animated.View style={[styles.header, headerStyle]}>
+          <QuizHeader
+            title={quiz.title}
+            currentQuestion={currentQuestion + 1}
+            totalOfQuestions={quiz.questions.length}
+          />
+        </Animated.View>
 
         <Animated.View style={shakeAnimatedStyle}>
           <Question
