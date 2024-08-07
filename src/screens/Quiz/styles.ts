@@ -17,4 +17,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 24,
   },
+  title: {
+    fontFamily: THEME.FONTS.BOLD,
+    fontSize: 16,
+    color: THEME.COLORS.GREY_100,
+    marginBottom: 7,
+    textAlign: 'center',
+  },
 })
