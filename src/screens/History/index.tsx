@@ -80,6 +80,7 @@ export function History() {
               ref={(ref) => ref && swipeableRefs.current.push(ref)}
               overshootLeft={false}
               containerStyle={styles.swipeableContainer}
+              renderRightActions={() => null}
               renderLeftActions={() => (
                 <Pressable
                   onPress={() => handleRemove(item.id, index)}
