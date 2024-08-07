@@ -13,6 +13,8 @@ export const THEME = {
     BRAND_MID: '#00875F',
     WARNING_LIGHT: '#FBA94C',
     DANGER_LIGHT: '#F75A68',
+    STAR_BLUE: '#5756B5',
+    STAR_GRAY: '#6f6f6f',
 
     LABEL: '#A6A1B2',
   },
