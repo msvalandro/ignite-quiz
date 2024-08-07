@@ -17,6 +17,7 @@ import Animated, {
 import { ConfirmButton } from '../../components/ConfirmButton'
 import { Loading } from '../../components/Loading'
 import { OutlineButton } from '../../components/OutlineButton'
+import { OverlayFeedback } from '../../components/OverlayFeedback'
 import { ProgressBar } from '../../components/ProgressBar'
 import { Question } from '../../components/Question'
 import { QuizHeader } from '../../components/QuizHeader'
@@ -207,6 +208,8 @@ export function Quiz() {
 
   return (
     <View style={styles.container}>
+      <OverlayFeedback status={2} />
+
       <Animated.View style={fixedProgressBarStyle}>
         <Text style={styles.title}>{quiz.title}</Text>
 
